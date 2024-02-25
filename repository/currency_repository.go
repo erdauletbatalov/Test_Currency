@@ -7,23 +7,28 @@ import (
 	"database/sql"
 )
 
+// CurrencyRepository - Интерфейс валюты
 type CurrencyRepository interface {
 	Save(currency []domain.Currency) error
 	GetCurrency(date, code string) ([]domain.Currency, error)
 }
 
+// ExternalService - Сервис внешних данных
 type ExternalService interface {
 	GetCurrencyData(date string) ([]domain.Currency, error)
 }
 
+// SQLCurrencyRepository - Репозиторий валюты в базе данных
 type SQLCurrencyRepository struct {
 	DB *sql.DB
 }
 
+// NewSQLCurrencyRepository - Инициализация репозитория валюты в базе данных
 func NewSQLCurrencyRepository(db *sql.DB) *SQLCurrencyRepository {
 	return &SQLCurrencyRepository{DB: db}
 }
 
+// Save - Сохранение валюты в базу данных
 func (repo *SQLCurrencyRepository) Save(currencyData []domain.Currency) error {
 
 	for _, currency := range currencyData {
@@ -35,6 +40,7 @@ func (repo *SQLCurrencyRepository) Save(currencyData []domain.Currency) error {
 	return nil
 }
 
+// GetCurrency - Получение валюты из базы данных
 func (repo *SQLCurrencyRepository) GetCurrency(date, code string) ([]domain.Currency, error) {
 	var currencyData []domain.Currency
 	query := "SELECT TITLE, CODE, VALUE, A_DATE FROM R_CURRENCY WHERE A_DATE=?"

@@ -17,11 +17,13 @@ type currencyService struct {
 	ExternalClient repository.ExternalService
 }
 
+// CurrencyUsecase - Интерфейс сервиса валюты
 type CurrencyUsecase interface {
 	SaveCurrency(date string) error
 	GetCurrency(date, code string) ([]domain.Currency, error)
 }
 
+// NewCurrencyUsecase - Инициализация сервиса валюты
 func NewCurrencyUsecase(repo repository.CurrencyRepository, externalClient repository.ExternalService) CurrencyUsecase {
 	return &currencyService{
 		Repo:           repo,
@@ -29,6 +31,7 @@ func NewCurrencyUsecase(repo repository.CurrencyRepository, externalClient repos
 	}
 }
 
+// SaveCurrency - Сохранение валюты в базу данных
 func (service *currencyService) SaveCurrency(date string) error {
 	currencyData, err := service.ExternalClient.GetCurrencyData(date)
 	if err != nil {
@@ -47,16 +50,20 @@ func (service *currencyService) SaveCurrency(date string) error {
 	return nil
 }
 
+// GetCurrency - Получение валюты из базы данных
 func (service *currencyService) GetCurrency(date, code string) ([]domain.Currency, error) {
 	return service.Repo.GetCurrency(date, code)
 }
 
+// nationalBankClient - Клиент внешних данных
 type nationalBankClient struct{}
 
+// NewNationalBankClient - Инициализация клиента внешних данных
 func NewNationalBankClient() *nationalBankClient {
 	return &nationalBankClient{}
 }
 
+// GetCurrencyData - Получение валюты из API National Bank KZ
 func (nbc *nationalBankClient) GetCurrencyData(date string) ([]domain.Currency, error) {
 	// Construct the URL with the provided date
 	url := fmt.Sprintf("https://nationalbank.kz/rss/get_rates.cfm?fdate=%s", date)

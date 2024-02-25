@@ -2,22 +2,22 @@ package mssql
 
 import (
 	"database/sql"
-	"log"
 
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
+// InitSQLDB - Инициализация подключения к базе данных. Реализация для MS SQL Server.
 func InitSQLDB(connectionString string) (*sql.DB, error) {
 	db, err := sql.Open("mssql", connectionString)
 	if err != nil {
 		return nil, err
 	}
 
+	// Проверка подключения к базе данных
 	err = db.Ping()
 	if err != nil {
 		return nil, err
 	}
 
-	log.Println("Connected to SQL Server database")
 	return db, nil
 }

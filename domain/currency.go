@@ -2,6 +2,7 @@ package domain
 
 import "time"
 
+// Currency - Объект валюты
 type Currency struct {
 	Title string    `json:"title"`
 	Code  string    `json:"code"`

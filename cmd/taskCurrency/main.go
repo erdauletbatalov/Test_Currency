@@ -26,6 +26,7 @@ func main() {
 		log.Fatal("Error initializing SQL database:", err)
 	}
 	defer db.Close()
+	log.Println("Connected to SQL Server database")
 
 	// Инициализация репозитория валюты
 	repo := repository.NewSQLCurrencyRepository(db)

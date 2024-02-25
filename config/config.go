@@ -5,11 +5,13 @@ import (
 	"os"
 )
 
+// Config - Конфигурация приложения
 type Config struct {
 	DBConnectionString string `json:"db_connection_string"`
 	ServerPort         string `json:"server_port"`
 }
 
+// LoadConfig - Загрузка конфигурации приложения
 func LoadConfig(filename string) (Config, error) {
 	var config Config
 	file, err := os.Open(filename)

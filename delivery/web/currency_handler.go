@@ -10,14 +10,17 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// CurrencyHandler - Обработчик HTTP для валюты
 type CurrencyHandler struct {
 	Service usecase.CurrencyUsecase
 }
 
+// NewCurrencyHandler - Инициализация обработчика HTTP для валюты
 func NewCurrencyHandler(service usecase.CurrencyUsecase) *CurrencyHandler {
 	return &CurrencyHandler{Service: service}
 }
 
+// SaveCurrency - Сохранение валюты в базу данных
 func (handler *CurrencyHandler) SaveCurrency(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	date := params["date"]
@@ -34,6 +37,7 @@ func (handler *CurrencyHandler) SaveCurrency(w http.ResponseWriter, r *http.Requ
 	json.NewEncoder(w).Encode(response)
 }
 
+// GetCurrency - Получение валюты из базы данных
 func (handler *CurrencyHandler) GetCurrency(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	date := params["date"]
