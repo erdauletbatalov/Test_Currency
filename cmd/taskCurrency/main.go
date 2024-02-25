@@ -44,5 +44,6 @@ func main() {
 
 	// Запуск сервера
 	http.Handle("/", r)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	port := ":" + config.ServerPort
+	log.Fatal(http.ListenAndServe(port, nil))
 }
