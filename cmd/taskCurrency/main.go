@@ -32,15 +32,15 @@ func main() {
 	externalClient := usecase.NewNationalBankClient()
 
 	// Инициализация сервиса валюты
-	service := usecase.NewCurrencyService(repo, externalClient)
+	service := usecase.NewCurrencyUsecase(repo, externalClient)
 
 	// Инициализация обработчика HTTP
-	handler := web.NewCurrencyHandler(service)
+	currencyHandler := web.NewCurrencyHandler(service)
 
 	// Настройка маршрутов
 	r := mux.NewRouter()
-	r.HandleFunc("/currency/save/{date}", handler.SaveCurrency).Methods("GET")
-	r.HandleFunc("/currency/save/{date}", handler.GetCurrency).Methods("GET")
+	r.HandleFunc("/currency/save/{date}", currencyHandler.SaveCurrency).Methods("GET")
+	r.HandleFunc("/currency/save/{date}", currencyHandler.GetCurrency).Methods("GET")
 
 	// Запуск сервера
 	http.Handle("/", r)

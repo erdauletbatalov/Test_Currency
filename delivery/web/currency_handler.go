@@ -11,10 +11,10 @@ import (
 )
 
 type CurrencyHandler struct {
-	Service *usecase.CurrencyService
+	Service usecase.CurrencyUsecase
 }
 
-func NewCurrencyHandler(service *usecase.CurrencyService) *CurrencyHandler {
+func NewCurrencyHandler(service usecase.CurrencyUsecase) *CurrencyHandler {
 	return &CurrencyHandler{Service: service}
 }
 

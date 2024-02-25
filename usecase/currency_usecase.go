@@ -12,19 +12,24 @@ import (
 	"time"
 )
 
-type CurrencyService struct {
+type currencyService struct {
 	Repo           repository.CurrencyRepository
 	ExternalClient repository.ExternalService
 }
 
-func NewCurrencyService(repo repository.CurrencyRepository, externalClient repository.ExternalService) *CurrencyService {
-	return &CurrencyService{
+type CurrencyUsecase interface {
+	SaveCurrency(date string) error
+	GetCurrency(date, code string) ([]domain.Currency, error)
+}
+
+func NewCurrencyUsecase(repo repository.CurrencyRepository, externalClient repository.ExternalService) CurrencyUsecase {
+	return &currencyService{
 		Repo:           repo,
 		ExternalClient: externalClient,
 	}
 }
 
-func (service *CurrencyService) SaveCurrency(date string) error {
+func (service *currencyService) SaveCurrency(date string) error {
 	currencyData, err := service.ExternalClient.GetCurrencyData(date)
 	if err != nil {
 		return err
@@ -42,7 +47,7 @@ func (service *CurrencyService) SaveCurrency(date string) error {
 	return nil
 }
 
-func (service *CurrencyService) GetCurrency(date, code string) ([]domain.Currency, error) {
+func (service *currencyService) GetCurrency(date, code string) ([]domain.Currency, error) {
 	return service.Repo.GetCurrency(date, code)
 }
 
