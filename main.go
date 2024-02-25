@@ -77,11 +77,6 @@ func saveCurrency(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	// currencyData := []Currency{
-	// 	{Title: "US Dollar", Code: "USD", Value: 1.0, ADate: time.Now()},
-	// 	{Title: "Euro", Code: "EUR", Value: 0.85, ADate: time.Now()},
-	// }
-
 	// Асинхронное сохранение данных в базу данных
 	go func() {
 		db, err := sql.Open("mssql", config.DBConnectionString)
@@ -188,6 +183,7 @@ func main() {
 	router.HandleFunc("/currency/{date}/{code}", getCurrency).Methods("GET")
 
 	// Запуск веб-сервера
+	http.Handle("/", router)
 	port := ":" + config.Port
 	log.Fatal(http.ListenAndServe(port, router))
 }
